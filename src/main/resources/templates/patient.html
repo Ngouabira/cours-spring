@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="layout/base::head">
+    <title th:replace="layout/base :: title">Patients</title>
+    </head>
+<body>
+
+<div th:replace="layout/base::menu"> </div>
+
+
+<div class="main-container" th:fragment="content">
+<div class="col col-10 offset-1">
+<h1> Patients </h1>
+    <a class="btn btn-primary" href="patients/create"  >Ajouter un patient</a>
+
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <p th:text="${message}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Genre</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="patient : ${patients}">
+        <td th:text="${patient.fullName}"></td>
+        <td  th:text="${patient.gender}"></td>
+        <td  th:text="${patient.phone}"></td>
+        <td  th:text="${patient.email}"></td>
+        <td >
+            <a class="btn btn-success" th:href="@{/patients/edit/{id}(id=${patient.id})}"  >Editer</a>
+            <a class="btn btn-danger"  th:onclick="'showDeleteModal(' + ${patient.id} + ')'"  >Supprimer</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+    </div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Voulez-vous supprimer ce patient?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                <a id="btnDelete" href="#" class="btn btn-danger">Oui</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<span th:replace="layout/base :: js"></span>
+
+<script type="text/javascript">
+
+    function showDeleteModal(id){
+
+    const deleteBtn = $("#btnDelete");
+    deleteBtn.prop("href", "/patients/"+id);
+    $("#deleteModal").modal('show');
+
+    }
+
+</script>
+
+</body>
+</html>

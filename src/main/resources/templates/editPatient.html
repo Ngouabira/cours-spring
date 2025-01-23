@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="layout/base::head">
+    <title th:replace="layout/base :: title">Modifier patient</title>
+</head>
+<body>
+
+<div th:replace="layout/base::menu"> </div>
+
+
+<div class="main-container" th:fragment="content">
+
+<div class="col col-10 offset-1">
+<h1> Formulaire d'édition d'un patient </h1>
+<form method="POST" th:action="@{/patients/update}" th:object="${patient}">
+
+    <input th:field="*{id}" type="hidden" />
+
+    <div class="mb-3">
+        <label for="fullName" class="form-label">Nom</label>
+        <input th:field="*{fullName}" type="text"  class="form-control" id="fullName">
+        <span class="error text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Nom invalide</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="gender" class="form-label">Genre</label>
+        <select th:field="*{gender}" id="gender" class="form-select">
+            <option value="Masculin">Masculin</option>
+            <option value="Feminin">Feminin</option>
+        </select>
+        <span class="error text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Genre invalide</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="phone" class="form-label">Téléphone</label>
+        <input  th:field="*{phone}"  type="text"  class="form-control" id="phone">
+        <span class="error text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Téléphone invalide</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input  th:field="*{email}" type="email" class="form-control" id="email" >
+        <span class="error text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email invalide</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+    </div>
+</div>
+
+    <span th:replace="layout/base :: js"></span>
+</body>
+</html>
