@@ -1,9 +1,6 @@
 package com.ecpi.cours_spring.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +15,9 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
+    @Column(unique = true)
     private String username;
+    private String role;
 
     private String password;
 }

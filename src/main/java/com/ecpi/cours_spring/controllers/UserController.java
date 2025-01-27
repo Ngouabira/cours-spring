@@ -48,7 +48,7 @@ public class UserController {
     public String edit(Model model, @PathVariable("id") int id){
         var user = userService.find(id);
         model.addAttribute("user", user);
-        return  "EditPatient";
+        return  "EditUser";
     }
 
 
