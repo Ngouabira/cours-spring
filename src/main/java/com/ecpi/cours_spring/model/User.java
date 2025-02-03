@@ -17,6 +17,7 @@ public class User {
     private Integer id;
     @Column(unique = true)
     private String username;
+    @Column(nullable = true)
     private String role;
 
     private String password;

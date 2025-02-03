@@ -20,12 +20,14 @@ public class SampleDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        var user1 = User.builder().role("ADMIN").username("gildasngouabira@gmail.com").password(encoder.encode("1234")).build();
-        var user2 = User.builder().role("USER").username("valdyngouabira@gmail.com").password(encoder.encode("1234")).build();
+        if(userRepository.findByUsername("gildasngouabira@gmail.com").isEmpty() && userRepository.findByUsername("valdyngouabira@gmail.com").isPresent()){
+            var user1 = User.builder().role("ADMIN").username("gildasngouabira@gmail.com").password(encoder.encode("1234")).build();
+            var user2 = User.builder().role("USER").username("valdyngouabira@gmail.com").password(encoder.encode("1234")).build();
 
-        List<User> users = List.of(user1, user2);
+            List<User> users = List.of(user1, user2);
 
-        userRepository.saveAll(users);
+            userRepository.saveAll(users);
+        }
 
     }
 }

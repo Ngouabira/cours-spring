@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="layout/base::head">
+    <title th:replace="layout/base :: title">Ajouter utilisateur</title>
+</head>
+<body>
+
+<div th:replace="layout/base::menu"> </div>
+
+
+<div class="main-container" th:fragment="content">
+<div class="col col-10 offset-1">
+<h1> Formulaire d'ajout d'un patient </h1>
+<form method="POST" th:action="@{/users}" th:object="${user}">
+    <input th:field="*{id}" type="hidden" />
+    <div class="mb-3">
+        <label for="username" class="form-label">Nom utilisateur</label>
+        <input th:field="*{username}" type="text"  class="form-control" id="username">
+        <span class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Nom invalide</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="role" class="form-label">Genre</label>
+        <select th:field="*{role}" id="role" class="form-select">
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+        </select>
+        <span class="error text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Genre invalide</span>
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input  th:field="*{password}" type="password" class="form-control" id="password" >
+        <span class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password invalide</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>
+    </div>
+
+</div>
+
+<span th:replace="layout/base :: js"></span>
+</body>
+</html>

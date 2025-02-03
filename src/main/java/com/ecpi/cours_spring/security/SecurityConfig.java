@@ -5,13 +5,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private static final String[] permitURLs = {"/swagger-ui.html",
@@ -24,6 +28,7 @@ public class SecurityConfig {
             "/api/auth/**",
             "/api/password/forgot-password/**",
             "/api/password/reset-password/**",
+            "/register/**"
     };
 
     private final MyUserDetailsService userDetailsService;
@@ -40,8 +45,12 @@ public class SecurityConfig {
                         .requestMatchers(permitURLs).permitAll() // URLs autorisées sans authentification
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.defaultSuccessUrl("/patients", true)) // Configurer la page de login
-                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/")); // Configurer la déconnexion
+                .formLogin(
+                        form -> form.loginPage("/login")
+                                .defaultSuccessUrl("/patients", true)
+                                .permitAll()
+                ) // Configurer la page de login
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll()); // Configurer la déconnexion
 
         return http.build();
     }

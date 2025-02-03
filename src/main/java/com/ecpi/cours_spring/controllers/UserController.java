@@ -4,6 +4,7 @@ import com.ecpi.cours_spring.model.User;
 import com.ecpi.cours_spring.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,22 +15,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("users")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     private final UserService userService;
+
 
     @GetMapping(value = "/create")
     public String create(Model model){
         var user = new User();
         model.addAttribute("user", user);
-        return  "creatUser";
+        return  "createUser";
     }
 
     @PostMapping
     public String store(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            return  "creatUser";
+            return  "editUser";
         }
 
         userService.create(user);
@@ -68,6 +71,6 @@ public class UserController {
     public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes){
           userService.delete(id);
         redirectAttributes.addFlashAttribute("message", "L'utilisateur a été supprimé!");
-        return "redirect:/patients";
+        return "redirect:/users";
     }
 }

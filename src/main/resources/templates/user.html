@@ -10,7 +10,7 @@
 
 <div class="main-container" th:fragment="content">
 <div class="col col-10 offset-1">
-<h1> users </h1>
+<h1> Utlisateurs </h1>
     <a class="btn btn-primary" href="users/create"  >Ajouter un utilisateur</a>
 
     <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -29,7 +29,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${user}">
+    <tr th:each="user : ${users}">
         <td th:text="${user.username}"></td>
         <td  th:text="${user.role}"></td>
         <td >
